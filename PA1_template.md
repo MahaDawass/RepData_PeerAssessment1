@@ -82,7 +82,6 @@ summary(activity)
 total_step <- aggregate(activity$steps, list(activity$date), FUN=sum)
 colnames(total_step) <- c("Date", "Steps")
 
-png("plot1.png")
 qplot(total_step$"Steps",geom="histogram",xlab="Total Steps",ylab="Counts",main="Total Steps Historgram")
 ```
 
@@ -94,14 +93,7 @@ qplot(total_step$"Steps",geom="histogram",xlab="Total Steps",ylab="Counts",main=
 ## Warning: Removed 8 rows containing non-finite values (stat_bin).
 ```
 
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ```r
 mean(total_step$Steps, na.rm=TRUE)
@@ -123,16 +115,12 @@ median(total_step$Steps, na.rm=TRUE)
 ```r
 step_time <- aggregate(steps~interval,data=activity,FUN=mean,na.action=na.omit)
 step_time$time <- step_time$interval/100
-png("plot4.png")
+
 g <- ggplot(step_time, aes(time, steps))
 g+geom_line(col="blue")+ggtitle("Average steps per time interval")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))
-dev.off()
 ```
 
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
 IT <- tbl_df(step_time)
@@ -167,7 +155,7 @@ activity_data_imputed <- data.frame(steps=activity$CompleteSteps, interval=activ
 
 Full_data_Steps <- aggregate(activity_data_imputed$steps,list(activity_data_imputed$date), FUN=sum)
 colnames(Full_data_Steps) <- c("Date", "Steps")
-png("plot7.png")
+
 g <- ggplot(Full_data_Steps, aes(Steps))
 g+geom_histogram(col="brown")+ggtitle("Average steps per time interval")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))
 ```
@@ -176,14 +164,7 @@ g+geom_histogram(col="brown")+ggtitle("Average steps per time interval")+xlab("T
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```r
@@ -192,15 +173,11 @@ activity_data_imputed$weekday <- weekdays(activity_data_imputed$RealDate)
 activity_data_imputed$DayType <- ifelse(activity_data_imputed$weekday=='Saturday' | activity_data_imputed$weekday=='Sunday', 'weekend','weekday')
 
 Steps_time_Day <- aggregate(steps~interval+DayType,data=activity_data_imputed,FUN=mean,na.action=na.omit)
-png("plot8.png")
+
 Steps_time_Day$time <- Steps_time_Day$interval/100
 m <- ggplot(Steps_time_Day, aes(time, steps))
 m+geom_line(col="darkred")+ggtitle("Average steps per time interval: weekdays vs. weekends")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))
-dev.off()
 ```
 
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
